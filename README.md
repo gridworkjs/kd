@@ -34,7 +34,7 @@ tree.nearest({ x: 40.725, y: -73.990 }, 2)
 
 // search a bounding box
 tree.search({ minX: 40.720, minY: -73.990, maxX: 40.730, maxY: -73.985 })
-// => [{ name: 'Katz Deli', ... }, { name: 'Russ & Daughters', ... }]
+// => [{ name: 'Katz Deli', ... }, { name: 'Joe Pizza', ... }, { name: 'Russ & Daughters', ... }]
 ```
 
 ## When to Use a KD-tree

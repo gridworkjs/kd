@@ -61,6 +61,21 @@ describe('input validation', () => {
     const tree = createKdTree(() => ({ minX: NaN, minY: 0, maxX: 10, maxY: 10 }))
     assert.throws(() => tree.load([{}]), /non-finite/)
   })
+
+  it('preserves existing data when load validation fails', () => {
+    let shouldFail = false
+    const tree = createKdTree(item => {
+      if (shouldFail && item.bad) return { minX: NaN, minY: 0, maxX: 10, maxY: 10 }
+      return bounds(item.geo)
+    })
+    tree.load(pts([[10, 20], [30, 40]]))
+    assert.equal(tree.size, 2)
+
+    shouldFail = true
+    const bad = [{ geo: point(50, 60) }, { geo: point(70, 80), bad: true }]
+    assert.throws(() => tree.load(bad), /non-finite/)
+    assert.equal(tree.size, 2)
+  })
 })
 
 describe('insert and size', () => {

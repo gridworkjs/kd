@@ -280,11 +280,12 @@ export function createKdTree(accessor) {
     },
 
     load(items) {
-      root = null
-      size = 0
-      totalBounds = null
-
-      if (!items || items.length === 0) return
+      if (!items || items.length === 0) {
+        root = null
+        size = 0
+        totalBounds = null
+        return
+      }
 
       const entries = items.map(item => {
         const raw = accessor(item)
