@@ -587,3 +587,11 @@ describe('stress', () => {
     assert.deepEqual(ids, [49, 50, 51])
   })
 })
+
+describe('accessor property', () => {
+  it('exposes the accessor function', () => {
+    const fn = item => item.geo
+    const tree = createKdTree(fn)
+    assert.equal(tree.accessor, fn)
+  })
+})

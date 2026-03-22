@@ -85,6 +85,10 @@ Number of items in the tree.
 
 Bounding box of all items, or `null` if empty.
 
+### `tree.accessor`
+
+The bounds accessor function passed at construction.
+
 ## License
 
 MIT
