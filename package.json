@@ -36,7 +36,7 @@
     "types/"
   ],
   "dependencies": {
-    "@gridworkjs/core": "^1.0.0"
+    "@gridworkjs/core": "^1.1.1"
   },
   "devDependencies": {
     "typescript": "^5.9.3"
