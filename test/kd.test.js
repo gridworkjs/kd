@@ -57,6 +57,24 @@ describe('input validation', () => {
     assert.throws(() => tree.insert({}), /inverted/)
   })
 
+  it('throws on nearest with NaN point', () => {
+    const tree = createKdTree(accessor)
+    tree.insert({ id: 0, geo: point(10, 10) })
+    assert.throws(() => tree.nearest({ x: NaN, y: 5 }), /nearest requires a point with finite x and y/)
+  })
+
+  it('throws on nearest with undefined x/y', () => {
+    const tree = createKdTree(accessor)
+    tree.insert({ id: 0, geo: point(10, 10) })
+    assert.throws(() => tree.nearest({ x: undefined, y: 5 }), /nearest requires a point with finite x and y/)
+  })
+
+  it('throws on search with NaN bounds', () => {
+    const tree = createKdTree(accessor)
+    tree.insert({ id: 0, geo: point(10, 10) })
+    assert.throws(() => tree.search({ minX: NaN, minY: 0, maxX: 10, maxY: 10 }), /search requires bounds with finite values/)
+  })
+
   it('validates bounds during load', () => {
     const tree = createKdTree(() => ({ minX: NaN, minY: 0, maxX: 10, maxY: 10 }))
     assert.throws(() => tree.load([{}]), /non-finite/)

@@ -3,11 +3,11 @@ import {
   intersects, distanceToPoint
 } from '@gridworkjs/core'
 
+/** @typedef {{ minX: number, minY: number, maxX: number, maxY: number }} Bounds */
+/** @typedef {{ x: number, y: number }} Point */
 /**
- * @typedef {{ minX: number, minY: number, maxX: number, maxY: number }} Bounds
- * @typedef {{ x: number, y: number }} Point
- * @typedef {(item: T) => Bounds} Accessor
  * @template T
+ * @typedef {(item: T) => Bounds} Accessor
  */
 
 function validateAccessorBounds(b) {
@@ -319,6 +319,10 @@ export function createKdTree(accessor) {
     search(query) {
       if (size === 0) return []
       const queryBounds = normalizeBounds(query)
+      if (!Number.isFinite(queryBounds.minX) || !Number.isFinite(queryBounds.minY) ||
+          !Number.isFinite(queryBounds.maxX) || !Number.isFinite(queryBounds.maxY)) {
+        throw new Error('search requires bounds with finite values')
+      }
       const results = []
       searchTree(root, queryBounds, results)
       return results
@@ -329,6 +333,9 @@ export function createKdTree(accessor) {
 
       const px = queryPoint.x
       const py = queryPoint.y
+      if (!Number.isFinite(px) || !Number.isFinite(py)) {
+        throw new Error('nearest requires a point with finite x and y')
+      }
 
       const heap = []
       nearestSearch(root, px, py, heap, k)
